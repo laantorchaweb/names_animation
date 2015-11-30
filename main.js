@@ -8,11 +8,11 @@
   mainCanvas.height = window.innerHeight;
 
   mainContext.fillStyle = '#666666';
-  mainContext.font = '45px Verdana';
+  mainContext.font = 'normal normal lighter 45px Helvetica';
   mainContext.textAlign = 'center';
   mainContext.textBaseline = 'bottom';
 
-  var rowHeight  = 45;
+  var rowHeight  = 50;
   var fontHeight = 0;
   var totalRows = Math.floor(window.innerHeight / rowHeight);
 
@@ -26,7 +26,7 @@
   });
 
   function Text(name, age, speed, xPos, yPos, index) {
-    this.name  = name;
+    this.name  = name.toUpperCase();
     this.age   = age;
     this.speed = speed;
     this.xPos  = xPos;
@@ -59,10 +59,10 @@
   function createRow( data, yPos, index ) {
     var name = null;
     var xPos = ( index % 2 === 0 ) ? 0 : -window.innerWidth;
-    var speed = 0.1 + Math.random() * 4.5;
+    var speed = 0.1 + Math.random() * 0.5;
 
     for(var i = 0; i < data.length; i++) {
-      xPos += Math.floor( mainContext.measureText(data[i].name).width + 80);
+      xPos += Math.floor( mainContext.measureText(data[i].name).width + 200);
       name = new Text(data[i].name, data[i].age, speed, xPos, yPos, index);
       names.push(name);
     }
