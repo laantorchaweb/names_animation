@@ -18,7 +18,7 @@ var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAni
 
 getJSON('names.json').then(function(data) {
   console.log(data.length, 'names loaded.');
-  init(data.slice(0, 100));
+  init(data);
 }, function(status) {
   console.log('Something went wrong.', status);
 });
@@ -31,16 +31,16 @@ function Text(name, age, speed, xPos, yPos, index) {
   this.yPos  = yPos;
   this.sign  = ( index % 2 === 0 ) ? -1 : 1;
 
-  this.step = (index % 2 === 0 ) ? -window.innerWidth : 0;
+  console.log(this.name, this.xPos);
+  this.counter = 0;
 
 }
 
 Text.prototype.update = function () {
-  this.step += this.sign * this.speed;
+  this.counter += this.sign * this.speed;
 
-  console.log(this.name, this.xPos);
   mainContext.fillStyle = colorByAge(this.age);
-  mainContext.fillText(this.name, this.xPos + this.step, this.yPos);
+  mainContext.fillText(this.name, this.xPos + this.counter, this.yPos);
 
 };
 
@@ -48,7 +48,7 @@ function init( data ) {
   var rows = splitArr(data, totalRows);
 
   for( var index = 0; index < totalRows; index++ ) {
-    createRow(rows[index], fontHeight += 40, index);
+    createRow(rows[index], fontHeight += 50, index);
   }
 
   drawAndUpdate();
@@ -61,8 +61,8 @@ function createRow( data, yPos, index ) {
   var speed = 0.1 + Math.random() * 0.5;
 
   for(var i = 0; i < data.length; i++) {
-    xPos += Math.floor(mainContext.measureText(data[i].name).width + 20);
-    name = new Text(data[i].name, data[i].age, speed, xPos, yPos, index);
+    xPos += Math.floor(mainContext.measureText(data[i].name).width);
+    name = new Text(' ' + data[i].name + ' ', data[i].age, speed, xPos, yPos, index);
     names.push(name);
   }
 }
