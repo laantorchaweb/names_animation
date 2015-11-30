@@ -1,93 +1,95 @@
-var mainCanvas = document.getElementById("MyCanvas1");
-var mainContext = mainCanvas.getContext('2d');
+(function() {
+  var mainCanvas = document.getElementById("MyCanvas1");
+  var mainContext = mainCanvas.getContext('2d');
 
-var names = [];
+  var names = [];
 
-mainCanvas.width  = window.innerWidth;
-mainCanvas.height = window.innerHeight;
+  mainCanvas.width  = window.innerWidth;
+  mainCanvas.height = window.innerHeight;
 
-mainContext.fillStyle = '#666666';
-mainContext.font = '40px Verdana';
-mainContext.textAlign = 'center';
-mainContext.textBaseline = 'middle';
+  mainContext.fillStyle = '#666666';
+  mainContext.font = '45px Verdana';
+  mainContext.textAlign = 'center';
+  mainContext.textBaseline = 'middle';
 
-var fontHeight = 40;
-var totalRows = Math.floor(window.innerHeight / fontHeight);
+  var rowHeight  = 45;
+  var fontHeight = 0;
+  var totalRows = Math.floor(window.innerHeight / rowHeight);
 
-var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+  var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
 
-getJSON('names.json').then(function(data) {
-  console.log(data.length, 'names loaded.');
-  init(data);
-}, function(status) {
-  console.log('Something went wrong.', status);
-});
+  getJSON('names.json').then(function(data) {
+    console.log(data.length, 'names loaded.');
+    init(data);
+  }, function(status) {
+    console.log('Something went wrong.', status);
+  });
 
-function Text(name, age, speed, xPos, yPos, index) {
-  this.name  = name;
-  this.age   = age;
-  this.speed = speed;
-  this.xPos  = xPos;
-  this.yPos  = yPos;
-  this.sign  = ( index % 2 === 0 ) ? -1 : 1;
+  function Text(name, age, speed, xPos, yPos, index) {
+    this.name  = name;
+    this.age   = age;
+    this.speed = speed;
+    this.xPos  = xPos;
+    this.yPos  = yPos;
+    this.sign  = ( index % 2 === 0 ) ? -1 : 1;
 
-  console.log(this.name, this.xPos);
-  this.counter = 0;
+    this.counter = 0;
 
-}
-
-Text.prototype.update = function () {
-  this.counter += this.sign * this.speed;
-
-  mainContext.fillStyle = colorByAge(this.age);
-  mainContext.fillText(this.name, this.xPos + this.counter, this.yPos);
-
-};
-
-function init( data ) {
-  var rows = splitArr(data, totalRows);
-
-  for( var index = 0; index < totalRows; index++ ) {
-    createRow(rows[index], fontHeight += 50, index);
   }
 
-  drawAndUpdate();
+  Text.prototype.update = function () {
+    this.counter += this.sign * this.speed;
 
-}
+    mainContext.fillStyle = colorByAge(this.age);
+    mainContext.fillText(this.name, this.xPos + this.counter, this.yPos);
 
-function createRow( data, yPos, index ) {
-  var name = null;
-  var xPos = 0;
-  var speed = 0.1 + Math.random() * 0.5;
+  };
 
-  for(var i = 0; i < data.length; i++) {
-    xPos += Math.floor(mainContext.measureText(data[i].name).width);
-    name = new Text(' ' + data[i].name + ' ', data[i].age, speed, xPos, yPos, index);
-    names.push(name);
-  }
-}
+  function init( data ) {
+    var rows = splitArr(data, totalRows);
 
-function drawAndUpdate() {
-  mainContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    for( var index = 0; index < totalRows; index++ ) {
+      createRow(rows[index], fontHeight += rowHeight, index);
+    }
 
-  for (var i = 0; i < names.length; i++) {
-    var name = names[i];
-    name.update();
+    drawAndUpdate();
+
   }
 
-  requestAnimationFrame(drawAndUpdate);
-}
+  function createRow( data, yPos, index ) {
+    var name = null;
+    var xPos = ( index % 2 === 0 ) ? 0 : -window.innerWidth;
+    var speed = 0.1 + Math.random() * 4.5;
 
-function colorByAge( age ) {
-  if ( age > 5 && age < 10 ) {
-    return '#666666'
+    for(var i = 0; i < data.length; i++) {
+      xPos += Math.floor( mainContext.measureText(data[i].name).width + 80);
+      name = new Text(data[i].name, data[i].age, speed, xPos, yPos, index);
+      names.push(name);
+    }
   }
 
-  if ( age >= 10 ) {
-    return '#FFFFFF'
+  function drawAndUpdate() {
+    mainContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+    for (var i = 0; i < names.length; i++) {
+      var name = names[i];
+      name.update();
+    }
+
+    requestAnimationFrame(drawAndUpdate);
   }
 
-  if ( age < 5 ) {
-    return '#333333';
+  function colorByAge( age ) {
+    if ( age > 8 && age < 12 ) {
+      return '#666666'
+    }
+
+    if ( age >= 12 ) {
+      return '#FFFFFF'
+    }
+
+    if ( age < 8 ) {
+      return '#333333';
+    }
   }
-}
+})();
