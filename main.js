@@ -10,7 +10,7 @@
   mainContext.fillStyle = '#666666';
   mainContext.font = '45px Verdana';
   mainContext.textAlign = 'center';
-  mainContext.textBaseline = 'middle';
+  mainContext.textBaseline = 'bottom';
 
   var rowHeight  = 45;
   var fontHeight = 0;
