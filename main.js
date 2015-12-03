@@ -1,5 +1,6 @@
 (function() {
-  var mainCanvas = document.getElementById("MyCanvas1");
+  var fps_element = document.getElementById('fps');
+  var mainCanvas  = document.getElementById("MyCanvas1");
   var mainContext = mainCanvas.getContext('2d');
 
   var names = [];
@@ -20,10 +21,27 @@
 
   getJSON('names.json').then(function(data) {
     console.log(data.length, 'names loaded.');
+
     init(data);
   }, function(status) {
     console.log('Something went wrong.', status);
   });
+
+  var FPS = {
+    startTime: 0,
+    frameNumber: 0,
+    getFPS: function(){
+      this.frameNumber++;
+      var d = new Date().getTime(),
+        currentTime = ( d - this.startTime ) / 1000,
+          result = Math.floor( ( this.frameNumber / currentTime ) );
+          if (currentTime > 1) {
+            this.startTime = new Date().getTime();
+            this.frameNumber = 0;
+          }
+          return result;
+    }
+  };
 
   function Text(name, age, speed, xPos, yPos, index) {
     this.name  = name.toUpperCase();
@@ -57,8 +75,8 @@
   }
 
   function createRow( data, yPos, index ) {
-    var name = null;
-    var xPos = ( index % 2 === 0 ) ? 0 : -window.innerWidth;
+    var name  = null;
+    var xPos  = ( index % 2 === 0 ) ? 0 : -window.innerWidth * 5;
     var speed = 0.5 + Math.random() * 1.5;
 
     for(var i = 0; i < data.length; i++) {
@@ -68,7 +86,12 @@
     }
   }
 
+
   function drawAndUpdate() {
+    requestAnimationFrame(drawAndUpdate);
+
+    fps_element.innerText = FPS.getFPS() + ' fps';
+
     mainContext.fillStyle = '#000000';
     mainContext.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
@@ -77,7 +100,7 @@
       name.update();
     }
 
-    requestAnimationFrame(drawAndUpdate);
+
   }
 
   function colorByAge( age ) {
