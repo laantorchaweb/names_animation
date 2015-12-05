@@ -59,7 +59,7 @@
   function createRow( data, yPos, index ) {
     var name = null;
     var xPos = ( index % 2 === 0 ) ? 0 : -window.innerWidth;
-    var speed = 0.1 + Math.random() * 0.5;
+    var speed = 0.5 + Math.random() * 1.5;
 
     for(var i = 0; i < data.length; i++) {
       xPos += Math.floor( mainContext.measureText(data[i].name).width + 200);
@@ -69,7 +69,8 @@
   }
 
   function drawAndUpdate() {
-    mainContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    mainContext.fillStyle = '#000000';
+    mainContext.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
     for (var i = 0; i < names.length; i++) {
       var name = names[i];
