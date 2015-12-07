@@ -7,8 +7,8 @@
   var names = [];
 
   mainCanvas.width  = ( window.innerWidth <= 1920 * 4 ) ? window.innerWidth : 1920 * 3;
-  mainCanvas.height = ( mainCanvas.width >= 1920 ) ? 900 : window.innerHeight;
-  var isMultiple = mainCanvas.height === 900 ? true : false;
+  mainCanvas.height = ( mainCanvas.width >= 1920 ) ? 960 : window.innerHeight;
+  var isMultiple = mainCanvas.height === 960 ? true : false;
   var canvas2 = null;
   var canvas3 = null;
   var ctx2 = null;
@@ -22,9 +22,9 @@
     ctx3 = canvas3.getContext('2d');
 
     canvas2.width = 1920 * 3;
-    canvas2.height = 900;
+    canvas2.height = 960;
     canvas3.width = 1920 * 3;
-    canvas3.height = 900;
+    canvas3.height = 960;
 
     document.getElementById('container').appendChild(canvas2);
     document.getElementById('container').appendChild(canvas3);
@@ -49,7 +49,7 @@
 
   var rowHeight  = 50;
   var fontHeight = 0;
-  var totalRows = Math.floor(900 / rowHeight);
+  var totalRows = Math.floor(960 / rowHeight);
 
   getJSON('names.json').then(function(data) {
     console.log(data.length, 'names loaded.');
