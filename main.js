@@ -6,7 +6,7 @@
   document.getElementById('container').appendChild(mainCanvas);
   var names = [];
 
-  mainCanvas.width  = 1920 * 3;
+  mainCanvas.width  = ( window.innerWidth <= 1920 * 4 ) ? window.innerWidth : 1920 * 3;
   mainCanvas.height = ( mainCanvas.width >= 1920 ) ? 900 : window.innerHeight;
   var isMultiple = mainCanvas.height === 900 ? true : false;
   var canvas2 = null;
@@ -112,7 +112,7 @@
   function createRow( data, yPos, index, screen ) {
     var name  = null;
     var xPos  = ( index % 2 === 0 ) ? 0 : -window.innerWidth * 5;
-    var speed = 0.5 + Math.random() * 0.5;
+    var speed = 0.5 + Math.random() * 0.3;
 
     for(var i = 0; i < data.length; i++) {
       xPos += Math.floor( mainContext.measureText(data[i].name).width + 200);
