@@ -112,7 +112,7 @@
   function createRow( data, yPos, index, screen ) {
     var name  = null;
     var xPos  = ( index % 2 === 0 ) ? 0 : -window.innerWidth * 5;
-    var speed = 0.5 + Math.random() * 0.9;
+    var speed = 0.5 + Math.random() * 0.5;
 
     for(var i = 0; i < data.length; i++) {
       xPos += Math.floor( mainContext.measureText(data[i].name).width + 200);
