@@ -80,10 +80,10 @@
     this.counter += this.sign * this.speed;
     this.step += 1;
 
-    if ( ( this.sign === -1 && this.counter <= this.steps * this.sign ) || ( this.sign === 1 && this.counter >= this.steps ) ) {
-      this.step = 0;
-      this.counter = 0;
-    }
+    //if ( ( this.sign === -1 && this.counter <= this.steps * this.sign ) || ( this.sign === 1 && this.counter >= this.steps ) ) {
+    //  this.step = 0;
+    //  this.counter = 0;
+    //}
 
       this.ctx.fillStyle = colorByAge(this.age);
       this.ctx.fillText(this.name, this.xPos + this.counter, this.yPos);
@@ -112,7 +112,7 @@
   function createRow( data, yPos, index, screen ) {
     var name  = null;
     var xPos  = ( index % 2 === 0 ) ? 0 : -window.innerWidth * 5;
-    var speed = 0.5 + Math.random() * 0.3;
+    var speed = 0.5 + Math.random() * 0.9;
 
     for(var i = 0; i < data.length; i++) {
       xPos += Math.floor( mainContext.measureText(data[i].name).width + 200);
